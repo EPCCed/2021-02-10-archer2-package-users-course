@@ -46,10 +46,14 @@ long, but comparatively simple passwords. For example, passwords in the style of
 > 
 > > ## Solution
 > >
-> > 1. **No** This would not be accepted or a good choice as it is too short and is made up of obvious words
-> > 2. **Yes** This would be a good choice as it is long enough and easy to remember
-> > 3. **Yes** This would be accepted but may be difficult to remember and type (though you could use a password manager to store it)
-> > 4. **No** While this meets the criteria, it is a well known example from a popular web comic and so would not be accepted
+> > 1. **No** This would not be accepted or a good choice as it is too short 
+> > and is made up of obvious words
+> > 2. **Yes** This would be a good choice as it is long enough and easy to 
+> > remember
+> > 3. **Yes** This would be accepted but may be difficult to remember and 
+> > type (though you could use a password manager to store it)
+> > 4. **No** While this meets the criteria, it is a well known example from a 
+> > popular web comic and so would not be accepted
 > >
 > {: .solution}
 {: .challenge}
