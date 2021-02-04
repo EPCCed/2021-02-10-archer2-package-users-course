@@ -11,7 +11,7 @@ humantime:
 startdate: 
 enddate: 
 instructor: ["Julien Sindt"]
-helper: ["Caoimhín Laoide-Kemp and George Beckett"]
+helper: ["Eleanor Broadway, Juan Rodriguez-Herrera"]
 email: ["J.Sindt@epcc.ed.ac.uk"]
 collaborative_notes: 
 eventbrite: 

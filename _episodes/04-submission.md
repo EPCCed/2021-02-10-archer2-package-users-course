@@ -142,7 +142,7 @@ two nodes.
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0:10:0
-#SBATCH --account=ta014
+#SBATCH --account=ta016
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 
@@ -168,7 +168,7 @@ The options shown here are:
 * `--ntasks-per-node=128` - Set 128 parallel processes per node (usually corresponds to MPI ranks)
 * `--cpus-per-task=1` - Number of cores to allocate per parallel process 
 * `--time=0:10:0` - Set 10 minutes maximum walltime for this job
-* `--account=ta014` - Charge the job to the `ta014` budget
+* `--account=ta016` - Charge the job to the `ta016` budget
 
 We will discuss the `srun` command further below.
 
@@ -199,17 +199,13 @@ Slurm reports back with the job ID for the job you have submitted
 > 
 > > ## Solution
 > > 
-> > (1) Budget: None - fails if submitted without a budget specified
-> >
-> > You can get the answers to 2. and 3. this with the following script (once you have realised that you must
-> >specify a budget!):
+> > You can get the answers to 1., 2., and 3. with the following script:
 > > 
 > > ```
 > > #!/bin/bash
 > > #SBATCH --job-name=my_mpi_job
-> > #SBATCH --account=ta014
 > > module load epcc-job-env
-> > ...
+> > 
 > > echo "Nodes: $SLURM_JOB_NUM_NODES"
 > > echo "Tasks per node: $SLURM_NTASKS_PER_NODE"
 > > module load xthi
@@ -220,12 +216,16 @@ Slurm reports back with the job ID for the job you have submitted
 > > ```
 > > {: .language-bash}
 > > 
+> > (1) Budget: It depends. In most cases, you will have a default budget to 
+> > which jobs will be charged. This is not always the case, though.
+> > 
 > > (2) Tasks per node: 256
 > >
 > > (3) Number of nodes: 1
 > >
-> > Getting the default time limit is more difficult - we need to use `sacct` to query the time limit set for
-> > the job. For example, if the job ID was "12345", then we could query the time limit with:
+> > (4) Getting the default time limit is more difficult - we need to use 
+> > `sacct` to query the time limit set for the job. For example, if the job 
+> > ID was "12345", then we could query the time limit with:
 > > 
 > > ```
 > > auser@uan01:~> sacct -o "TimeLimit" -j 12345
@@ -238,7 +238,6 @@ Slurm reports back with the job ID for the job you have submitted
 > > ```
 > > {: .output}
 > >
-> > (4) Walltime: Unlimited
 > {: .solution}
 {: .challenge}
 
@@ -340,7 +339,7 @@ per node and 16 OpenMP threads per MPI task (so all 256 cores across both nodes 
 #SBATCH --ntasks-per-node=8
 #SBATCH --cpus-per-task=16
 #SBATCH --time=0:10:0
-#SBATCH --account=ta014
+#SBATCH --account=ta016
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 
@@ -402,7 +401,7 @@ For example, to execute `xthi` across all cores on two nodes (1 MPI task per cor
 OpenMP threading) within an interactive job you would issue the following commands:
 
 ```
-auser@uan01:~> srun --partition=standard --qos=standard --nodes=2 --ntasks-per-node=128 --cpus-per-task=1 --time=0:10:0 --account=ta014 xthi
+auser@uan01:~> srun --partition=standard --qos=standard --nodes=2 --ntasks-per-node=128 --cpus-per-task=1 --time=0:10:0 --account=ta016 xthi
 ```
 {: .language-bash}
 ```
