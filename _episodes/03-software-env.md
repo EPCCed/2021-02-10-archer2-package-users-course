@@ -14,8 +14,6 @@ keypoints:
 - "The CSE service can help with software issues."
 ---
 
-<!-- TODO: Need to check all material here once Lmod is actually available -->
-
 ## Using software modules on ARCHER2
 
 ARCHER2 software modules use the
@@ -364,6 +362,169 @@ Your request will then be processed by the ARCHER2 Service Desk who will confirm
 software owners/developers before enabling your access to the software on ARCHER2. This can take several
 days (depending on how quickly the software owners/developers take to respond) but you will be advised
 once this has been done.
+
+## Switching between compiler environments
+
+You use the `module restore` command to switch between different compiler environments available
+on ARCHER2. The available environments are:
+
+* Cray Compiling Environment (CCE): `PrgEnv-cray`
+* GNU Compiler Collection (GCC): `PrgEnv-gnu`
+* AMD Optimizing Compilers (AOCC): `PrgEnv-aocc`
+
+These programming environments are all defined by *module collections*. `PrgEnv-cray` is loaded by
+default when you log in. You can change to the GCC compiler environment with the
+`module restore PrgEnv-gnu` command (with `module list` afterwards to show how things have changed):
+
+```
+auser@login01-nmn:~> module restore PrgEnv-gnu
+auser@login01-nmn:~> module list
+```
+{: .language-bash}
+```
+Unloading cray-libsci/20.08.1.2
+Unloading cray-mpich/8.0.15
+Unloading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta
+
+Unloading perftools-base/20.09.0
+  WARNING: Did not unuse /opt/cray/pe/perftools/20.09.0/modulefiles
+
+Unloading cray-dsmml/0.1.2
+Unloading craype-network-ofi
+Unloading libfabric/1.11.0.0.233
+Unloading craype-x86-rome
+
+Unloading craype/2.7.0
+  WARNING: Did not unuse /opt/cray/pe/craype/2.7.0/modulefiles
+
+Unloading cce/10.0.3
+Unloading cpe-cray
+Loading cpe-gnu
+Loading gcc/10.1.0
+Loading craype/2.7.0
+Loading craype-x86-rome
+Loading libfabric/1.11.0.0.233
+Loading craype-network-ofi
+Loading cray-dsmml/0.1.2
+Loading perftools-base/20.09.0
+Loading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta
+Loading cray-mpich/8.0.15
+Loading cray-libsci/20.08.1.2
+
+Currently Loaded Modulefiles:
+ 1) cpe-gnu                           7) perftools-base/20.09.0(default)                     
+ 2) craype/2.7.0(default)             8) xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta(default)  
+ 3) craype-x86-rome                   9) cray-mpich/8.0.15(default)                          
+ 4) libfabric/1.11.0.0.233(default)  10) cray-libsci/20.08.1.2(default)                      
+ 5) craype-network-ofi               11) gcc/10.1.0                                           
+ 6) cray-dsmml/0.1.2(default)   
+```
+
+## Switching between different compiler versions
+
+Unlike the programming environments, you use the `module swap` command to switch between different
+versions of the compilers within the programming environments. To do this, you need to know the
+names of the compiler modules, they are:
+
+* `cce` for the Cray Compiling Environment
+* `gcc` for the GNU Compiler Collection
+* `aocc` for the AMD Optimising Compilers
+
+For example, to change the version of GCC you are using you would first switch to the Gnu programming
+environment and then switch to a different version of GCC:
+
+```
+auser@login01-nmn:~> module restore PrgEnv-gnu
+auser@login01-nmn:~> module swap gcc gcc/9.3.0
+auser@login01-nmn:~> module list
+```
+{: .language-bash}
+```
+Unloading cray-libsci/20.08.1.2
+Unloading cray-mpich/8.0.15
+Unloading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta
+
+Unloading perftools-base/20.09.0
+  WARNING: Did not unuse /opt/cray/pe/perftools/20.09.0/modulefiles
+
+Unloading cray-dsmml/0.1.2
+Unloading craype-network-ofi
+Unloading libfabric/1.11.0.0.233
+Unloading craype-x86-rome
+
+Unloading craype/2.7.0
+  WARNING: Did not unuse /opt/cray/pe/craype/2.7.0/modulefiles
+
+Unloading cce/10.0.3
+Unloading cpe-cray
+Loading cpe-gnu
+Loading gcc/10.1.0
+Loading craype/2.7.0
+Loading craype-x86-rome
+Loading libfabric/1.11.0.0.233
+Loading craype-network-ofi
+Loading cray-dsmml/0.1.2
+Loading perftools-base/20.09.0
+Loading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta
+Loading cray-mpich/8.0.15
+Loading cray-libsci/20.08.1.2
+
+Currently Loaded Modulefiles:
+ 1) cpe-gnu                           7) perftools-base/20.09.0(default)                     
+ 2) craype/2.7.0(default)             8) xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta(default)  
+ 3) craype-x86-rome                   9) cray-mpich/8.0.15(default)                          
+ 4) libfabric/1.11.0.0.233(default)  10) cray-libsci/20.08.1.2(default)                      
+ 5) craype-network-ofi               11) gcc/9.3.0                                           
+ 6) cray-dsmml/0.1.2(default)         
+```
+{: .output}
+
+> ## Not all versions are guaranteed to work
+> Each Cray Programming Environment release is released as a coherent set of software that is 
+> guaranteed to work together as a whole. This means that not all compiler version and library
+> version combinations have been tested. If you select a combination from two different PE
+> releases you may experience incompatibility issues.
+{: .callout}
+
+<!-- Add note on cdt modules once they are there -->
+
+## Compiler wrapper scripts
+
+Code compiled on ARCHER2 should use the compiler wrapper scripts to ensure that
+all the correct libraries and header files are included in both the compile and
+link stages.
+
+> ## Linked libraries
+> Loading a module will automatically set the necessary paths and link flags for
+> that software, eliminating the need to specify them manually using the
+> `LDFLAGS` variable or another mechanism. For example, the `cray-libsci` module
+> is loaded by default on login and sets the the wrappers to link in BLAS,
+> LAPACK, and ScaLAPACK functionality without the need for the user to provide
+> an explicit `-llib_sci`.
+{: .callout}
+
+The compiler wrapper scripts are available for Fortran, C, and C++:
+* `ftn` -- Fortran compiler
+* `cc` -- C compiler
+* `CC` -- C++ compiler
+
+The wrapper scripts can be used to compile both sequential and parallel codes.
+
+## Dynamic linking on ARCHER2
+
+ARCHER2 currently only supports dynamic linking (you will see an error if you 
+try to link applications statically). As well as linking dynamically, all 
+HPE Cray software libraries are added to the executable *RUNPATH*. This means
+that you do not need to restore programming environments or load particular
+Cray modules in your job submission scripts to run on the compute nodes. However,
+if you do load different versions of libraries used by your application in your
+job submission scripts, these will take precedence over the versions encoded in
+the binary RUNPATH.
+
+**Note:** Software libraries provided by the CSE team via modules **are not**
+captured in the binary RUNPATH so these **do** need to be loaded in your 
+job submission scritps for the dynamic executable to be able to find them
+successfully.
 
 ## Getting help with software
 
